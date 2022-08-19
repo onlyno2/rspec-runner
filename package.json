@@ -10,14 +10,47 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:rspec-runner.helloWorld"
+    "onCommand:rspec-runner.runAll",
+    "onCommand:rspec-runner.runFile",
+    "onCommand:rspec-runner.runLine"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "ruby",
+        "extensions": [
+          ".rb"
+        ],
+        "filenamePatterns": [
+          "*_spec.rb"
+        ]
+      }
+    ],
     "commands": [
       {
-        "command": "rspec-runner.helloWorld",
-        "title": "Hello World"
+        "command": "rspec-runner.runAll",
+        "title": "Rspec Runner: Run all spec"
+      },
+      {
+        "command": "rspec-runner.runFile",
+        "title": "Rspec Runner: Run current spec file"
+      },
+      {
+        "command": "rspec-runner.runLine",
+        "title": "Rspec Runner: Run current spec line"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "rspec-runner.runFile",
+        "key": "ctrl+alt+f",
+        "when": "editorLangId == 'ruby'"
+      },
+      {
+        "command": "rspec-runner.runLine",
+        "key": "ctrl+alt+l",
+        "when": "editorLangId == 'ruby'"
       }
     ]
   },
