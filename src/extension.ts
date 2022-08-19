@@ -4,8 +4,35 @@ import * as vscode from 'vscode';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
+let terminals: { [id: string]: vscode.Terminal } = {};
+let TERMINAL_NAME = "Rspec Runner";
+
+function getTerminal() {
+  let currentTerminal: vscode.Terminal = terminals[TERMINAL_NAME];
+
+  if (!currentTerminal) {
+    terminals[TERMINAL_NAME] = vscode.window.createTerminal(TERMINAL_NAME);
+  }
+
+  return terminals[TERMINAL_NAME];
+}
+
+function clearTerminal() {
+  if (!vscode.window.activeTextEditor) return;
+
+  vscode.window.activeTextEditor.document.save();
+  return vscode.commands.executeCommand("workbench.action.terminal.clear");
+}
+
+function execCommand(command: string) {
+  let terminal = getTerminal();
+
+  terminal.sendText(command);
+  terminal.show();
+}
+
 function runAll() {
-  console.log('run All');
+  execCommand('bundle exec rspec');
 }
 
 function runFile() {
@@ -20,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "rspec-runner" is now active!');
 
   let runAllDisposable = vscode.commands.registerCommand('rspec-runner.runAll', () => {
-    vscode.window.showInformationMessage('runAll');
+    clearTerminal()?.then(() => runAll());
   });
   context.subscriptions.push(runAllDisposable);
 
