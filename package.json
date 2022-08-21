@@ -45,11 +45,13 @@
       {
         "command": "rspec-runner.runFile",
         "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
         "when": "editorLangId == 'ruby'"
       },
       {
         "command": "rspec-runner.runLine",
         "key": "ctrl+alt+l",
+        "mac": "cmd+alt+f",
         "when": "editorLangId == 'ruby'"
       }
     ]
