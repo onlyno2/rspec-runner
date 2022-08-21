@@ -70,8 +70,31 @@ function runFile() {
   execCommand(`bundle exec rspec ${file}`);
 }
 
+function getActiveLine(): number {
+  if (!vscode.window.activeTextEditor) {
+    return -1;
+  }
+
+  return vscode.window.activeTextEditor.selection.active.line + 1;
+}
+
 function runLine() {
-  console.log('run Line');
+  const filePath = getFilePath();
+  const workspacePath = getWorkspacePath();
+  const activeLine = getActiveLine();
+
+  if (filePath === '' || workspacePath === '' || activeLine === -1) {
+    vscode.window.showErrorMessage('Invalid spec');
+    return;
+  }
+
+  if (!/_spec.rb/.test(filePath)) {
+    vscode.window.showErrorMessage('Not rspec file');
+    return;    
+  }
+
+  const file = filePath.replace(`${workspacePath}/`, "");
+  execCommand(`bundle exec rspec ${file}:${activeLine}`);
 }
 
 export function activate(context: vscode.ExtensionContext) {	
@@ -88,7 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(runFileDisposable);
 
   let runLineDisposable = vscode.commands.registerCommand('rspec-runner.runLine', () => {
-    vscode.window.showInformationMessage('runLine');
+    clearTerminal()?.then(() => runLine());
   });
   context.subscriptions.push(runLineDisposable);
 
