@@ -2,7 +2,7 @@
   "name": "rspec-runner",
   "displayName": "rspec-runner",
   "description": "Quickly run rspec on vscode",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "publisher": "onlyno2",
   "engines": {
     "vscode": "^1.70.0"
