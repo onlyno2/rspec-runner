@@ -2,7 +2,8 @@
   "name": "rspec-runner",
   "displayName": "rspec-runner",
   "description": "Quickly run rspec on vscode",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "publisher": "onlyno2",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -15,6 +16,10 @@
     "onCommand:rspec-runner.runLine"
   ],
   "main": "./out/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/onlyno2/rspec-runner.git"
+  },
   "contributes": {
     "languages": [
       {
@@ -51,10 +56,32 @@
       {
         "command": "rspec-runner.runLine",
         "key": "ctrl+alt+l",
-        "mac": "cmd+alt+f",
+        "mac": "cmd+alt+l",
         "when": "editorLangId == 'ruby'"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "RspecRunner",
+      "properties": {
+        "rspec-runner.executePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the rspec executable"
+        },
+        "rspec-runner.outputFormat": {
+          "type": "string",
+          "enum": ["progress", "documentation", "html", "json"],
+          "default": "progress",
+          "description": "Rspec format output"
+        },
+        "rspec-runner.useBundler": {
+          "type": "boolean",
+          "default": true,
+          "description": "Execute rspec using bundler"
+        }
+      }
+    }
   },
   "keywords": [
     "Rails",
