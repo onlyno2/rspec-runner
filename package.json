@@ -59,7 +59,29 @@
         "mac": "cmd+alt+l",
         "when": "editorLangId == 'ruby'"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "RspecRunner",
+      "properties": {
+        "rspec-runner.executePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the rspec executable"
+        },
+        "rspec-runner.outputFormat": {
+          "type": "string",
+          "enum": ["progress", "documentation", "html", "json"],
+          "default": "progress",
+          "description": "Rspec format output"
+        },
+        "rspec-runner.useBundler": {
+          "type": "boolean",
+          "default": true,
+          "description": "Execute rspec using bundler"
+        }
+      }
+    }
   },
   "keywords": [
     "Rails",
