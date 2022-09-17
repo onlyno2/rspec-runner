@@ -3,6 +3,38 @@ import * as vscode from 'vscode';
 let terminals: { [id: string]: vscode.Terminal } = {};
 let TERMINAL_NAME = "Rspec Runner";
 
+const RSPEC_RUNNER_EXECUTABLE_PATH: string = 'rspec-runner.executePath';
+const DEFAULT_EXECUTABLE_PATH: string = 'rspec';
+
+const RSPEC_RUNNER_OUTPUT_FORMAT: string = 'rspec-runner.outputFormat';
+const DEFAULT_OUTPUT_FORMAT: string = 'progress';
+
+const RSPEC_RUNNER_USE_BUNDLER: string = 'rspec-runner.useBundler';
+
+function getExecutablePath(): string {
+  return vscode.workspace.getConfiguration().get(RSPEC_RUNNER_EXECUTABLE_PATH) || DEFAULT_EXECUTABLE_PATH;
+}
+
+function getUseBundler(): boolean {
+  return vscode.workspace.getConfiguration().get(RSPEC_RUNNER_USE_BUNDLER) || true;
+}
+
+function getOutputFormat(): string {
+  return vscode.workspace.getConfiguration().get(RSPEC_RUNNER_OUTPUT_FORMAT) || DEFAULT_OUTPUT_FORMAT;
+}
+
+function buildCommand(): string {
+  const executablePath = getExecutablePath();
+  const bundler = getUseBundler() ? 'bundle exec' : '';
+  const outputFormat = getOutputFormat();
+
+  if (executablePath === 'rspec') {
+    return `${bundler} ${executablePath} -f ${outputFormat}`;
+  } else {
+    return `${executablePath} -f ${outputFormat}`;
+  }
+}
+
 function getTerminal() {
   let currentTerminal: vscode.Terminal = terminals[TERMINAL_NAME];
 
@@ -28,7 +60,7 @@ function execCommand(command: string) {
 }
 
 function runAll() {
-  execCommand('bundle exec rspec');
+  execCommand(buildCommand());
 }
 
 function getFilePath(): string {
@@ -63,7 +95,8 @@ function runFile() {
   }
 
   const file = filePath.replace(`${workspacePath}/`, "");
-  execCommand(`bundle exec rspec ${file}`);
+  const command = buildCommand();
+  execCommand(`${command} ${file}`);
 }
 
 function getActiveLine(): number {
@@ -90,7 +123,8 @@ function runLine() {
   }
 
   const file = filePath.replace(`${workspacePath}/`, "");
-  execCommand(`bundle exec rspec ${file}:${activeLine}`);
+  const command = buildCommand();
+  execCommand(`${command} ${file}:${activeLine}`);
 }
 
 export function activate(context: vscode.ExtensionContext) {	
