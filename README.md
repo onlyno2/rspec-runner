@@ -30,7 +30,7 @@ docker-compose exec -T <your-service> bundle exec rspec "$@"
 ```json
 {
   "rspec-runner.executePath": "./rspec",
-  "rspec-runner.outputFormat:" "documentation",
+  "rspec-runner.outputFormat": "documentation",
   "rspec-runner.useBundler": true
 }
 ```
