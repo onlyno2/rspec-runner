@@ -79,6 +79,11 @@
           "type": "boolean",
           "default": true,
           "description": "Execute rspec using bundler"
+        },
+        "rspec-runner.withWarnings": {
+          "type": "boolean",
+          "default": false,
+          "description": "Execute rspec with warnings"
         }
       }
     }
