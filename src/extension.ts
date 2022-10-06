@@ -11,6 +11,8 @@ const DEFAULT_OUTPUT_FORMAT: string = 'progress';
 
 const RSPEC_RUNNER_USE_BUNDLER: string = 'rspec-runner.useBundler';
 
+const RSPEC_RUNNER_WITH_WARNINGS: string = 'rspec-runner.withWarnings';
+
 function getExecutablePath(): string {
   return vscode.workspace.getConfiguration().get(RSPEC_RUNNER_EXECUTABLE_PATH) || DEFAULT_EXECUTABLE_PATH;
 }
@@ -23,15 +25,20 @@ function getOutputFormat(): string {
   return vscode.workspace.getConfiguration().get(RSPEC_RUNNER_OUTPUT_FORMAT) || DEFAULT_OUTPUT_FORMAT;
 }
 
+function getWithWarnings(): boolean {
+  return vscode.workspace.getConfiguration().get(RSPEC_RUNNER_WITH_WARNINGS) || false;
+}
+
 function buildCommand(): string {
   const executablePath = getExecutablePath();
   const bundler = getUseBundler() ? 'bundle exec' : '';
   const outputFormat = getOutputFormat();
+  const withWarnings = getWithWarnings() ? '--warnings' : '';
 
   if (executablePath === 'rspec') {
-    return `${bundler} ${executablePath} -f ${outputFormat}`;
+    return `${bundler} ${executablePath} ${withWarnings} -f ${outputFormat}`;
   } else {
-    return `${executablePath} -f ${outputFormat}`;
+    return `${executablePath} ${withWarnings} -f ${outputFormat}`;
   }
 }
 
