@@ -15,7 +15,7 @@ Specify configuration (via navigating to File > Preferences > Workspace Settings
 ```json
 {
   "rspec-runner.executePath": "rspec",
-  "rspec-runner.outputFormat:" "documentation",
+  "rspec-runner.outputFormat": "documentation",
   "rspec-runner.useBundler": true
 }
 ```
